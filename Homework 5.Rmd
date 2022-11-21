@@ -29,14 +29,15 @@ philly <- raw_data %>% filter(city == "Philadelphia")
 
 pa_shape <- tigris::block_groups(state = "PA", county = 101, year = 2022, cb = F, class = "sf")
 
-pa_shape2 <- tigris::tracts(state = "PA", county = 101, year = 2022, cb = T, class = "sf")
+pa_shape2 <- tigris::tracts(state = "PA", county = 101, year = 2022, cb = F, class = "sf")
 ```
 
 
 
 ```{r}
 ggplot() + 
-  geom_sf(data = pa_shape)
+  geom_sf(data = pa_shape2) + 
+  geom_point(data = philly, aes(x = lon, y = lat))
 
 
 
