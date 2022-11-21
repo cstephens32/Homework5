@@ -37,7 +37,7 @@ pa_shape2 <- tigris::tracts(state = "PA", county = 101, year = 2022, cb = F, cla
 ```{r}
 ggplot() + 
   geom_sf(data = pa_shape2) + 
-  geom_point(data = philly, aes(x = lon, y = lat))
+  geom_point(data = philly, aes(x = lon, y = lat, color = victim_race))
 
 
 
