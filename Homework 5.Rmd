@@ -1,0 +1,51 @@
+
+
+Installing and loading packages.
+```{r packages}
+#### Packages ####
+## If a package is installed, it will be loaded. If any 
+## are not, the missing package(s) will be installed 
+## from CRAN and then loaded.
+
+## Packages of interest
+packages = c("tidyverse", "tigris", "sf", "viridis")
+
+## Now load or install&load all
+package.check <- lapply(
+  packages,
+  FUN = function(x) {
+    if (!require(x, character.only = TRUE)) {
+      install.packages(x, dependencies = TRUE)
+      library(x, character.only = TRUE)}})
+```
+
+
+Loading in the data.
+```{r load data}
+## Load data ##
+raw_data <- read.csv("data/homicide-data.csv")
+
+philly <- raw_data %>% filter(city == "Philadelphia")
+
+pa_shape <- tigris::block_groups(state = "PA", county = 101, year = 2022, cb = F, class = "sf")
+
+pa_shape2 <- tigris::tracts(state = "PA", county = 101, year = 2022, cb = T, class = "sf")
+```
+
+
+
+```{r}
+ggplot() + 
+  geom_sf(data = pa_shape)
+
+
+
+```
+
+
+
+
+
+
+
+
