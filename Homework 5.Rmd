@@ -46,7 +46,7 @@ freddie <- balt %>% filter( victim_first =="FREDDIE CARLOS") %>% mutate(
 ```
 
 
-```{r}
+```{r, fig.width=8, fig.height= 4}
 pal <- c(
   "Summer" = "light grey",
   "Winter" = "light blue"
@@ -58,7 +58,8 @@ ggplot(data = balt2, aes(x = year_month, y = homicide)) +
     values = pal,
     limits = names(pal)
   ) +
-  geom_smooth() + ## need to fix
+  geom_smooth(  stat = "smooth",
+  position = "identity",) + ## need to fix to get curves the same as picture 
   scale_x_date(date_labels = "%Y") + 
   labs(
     title = "Homicides in Baltimore, MD", 
