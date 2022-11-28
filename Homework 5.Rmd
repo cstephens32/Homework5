@@ -56,14 +56,34 @@ may 5 - oct 10 summer
 
 raw_data <- read.csv("data/homicide-data.csv")
 
-balt <- raw_data %>% filter(city == "Baltimore")
-
-balt <- balt %>% mutate(
+balt <- raw_data %>% filter(city == "Baltimore") %>% mutate(
   reported_date = ymd(reported_date),
   year_month = format(reported_date , "%Y-%m"), 
   month = as.numeric(format(reported_date , "%m")), 
   season = if_else(between(month, 05, 10), "Summer", "Winter")
 )
+
+balt2 <- balt %>% group_by(year_month, season) %>% 
+  summarize(
+    homicide = n()
+  ) %>% mutate(
+    year_month = as.Date(ym(year_month))
+  )
+
+str(balt2)
+```
+
+
+```{r}
+ggplot(data = balt2, aes(x = year_month, y = homicide)) +
+  geom_col(aes(fill = season)) + 
+  geom_smooth() + ## need to fix
+  scale_x_date(date_labels = "%Y") + 
+  labs(
+    title = "Homicides in Baltimore, MD", 
+    y = "Monthly homicides",
+    x = "Date"
+  ) 
 
 
 
