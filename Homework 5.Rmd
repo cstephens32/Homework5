@@ -33,6 +33,11 @@ philly <- raw_data %>% filter(city == "Philadelphia")
 
 philly_tract <- read.csv("data/Census_Tracts_2010.csv")
 
+philly <- philly %>% mutate(
+  reported_date = ymd(reported_date),
+  year_week = format(reported_date , "%Y-%m")
+)
+
 ```
 
 
@@ -45,13 +50,20 @@ philly_tract <- read.csv("data/Census_Tracts_2010.csv")
 
 
 ```
-
+nov 11 - april 4 winter
+may 5 - oct 10 summer
 ```{r}
-philly <- philly %>% mutate(
-  reported_date = ymd(reported_date),
-  year_week = format(reported_date , "%Y-%m")
-)
 
+raw_data <- read.csv("data/homicide-data.csv")
+
+balt <- raw_data %>% filter(city == "Baltimore")
+
+balt <- balt %>% mutate(
+  reported_date = ymd(reported_date),
+  year_month = format(reported_date , "%Y-%m"), 
+  month = as.numeric(format(reported_date , "%m")), 
+  season = if_else(between(month, 05, 10), "Summer", "Winter")
+)
 
 
 
