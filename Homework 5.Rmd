@@ -21,37 +21,6 @@ package.check <- lapply(
 
 
 Loading in the data.
-```{r load data}
-## Load data ##
-raw_data <- read.csv("data/homicide-data.csv")
-
-philly <- raw_data %>% filter(city == "Philadelphia")
-
-# pa_shape <- tigris::block_groups(state = "PA", county = 101, year = 2022, cb = F, class = "sf")
-# 
-# pa_shape2 <- tigris::tracts(state = "PA", county = 101, year = 2022, cb = F, class = "sf")
-
-philly_tract <- read.csv("data/Census_Tracts_2010.csv")
-
-philly <- philly %>% mutate(
-  reported_date = ymd(reported_date),
-  year_week = format(reported_date , "%Y-%m")
-)
-
-```
-
-
-
-```{r}
-# ggplot() + 
-#   geom_sf(data = pa_shape2) + 
-#   geom_point(data = philly, aes(x = lon, y = lat, color = victim_race))
-
-
-
-```
-nov 11 - april 4 winter
-may 5 - oct 10 summer
 ```{r}
 
 raw_data <- read.csv("data/homicide-data.csv")
@@ -70,19 +39,22 @@ balt2 <- balt %>% group_by(year_month, season) %>%
     year_month = as.Date(ym(year_month))
   )
 
-str(balt2)
+freddie <- balt %>% filter( victim_first =="FREDDIE CARLOS") %>% mutate(
+    year_month = as.Date(ym(year_month))
+  )
+
 ```
 
 
 ```{r}
 pal <- c(
-  "Winter" = "light Blue",
-  "Summer" = "light grey"
+  "Summer" = "light grey",
+  "Winter" = "light blue"
 )
 
 ggplot(data = balt2, aes(x = year_month, y = homicide)) +
   geom_col(aes(fill = season)) + 
- scale_fill_manual(
+  scale_fill_manual(
     values = pal,
     limits = names(pal)
   ) +
@@ -93,7 +65,11 @@ ggplot(data = balt2, aes(x = year_month, y = homicide)) +
     y = "Monthly homicides",
     x = "Date"
   ) + 
-  theme_dark() 
+  theme_dark() + 
+  theme(legend.position="bottom", legend.title= element_blank()) + 
+  geom_vline(xintercept= freddie$year_month, linetype="dashed", color = "red", size = 2) + 
+  geom_text(label = "Arrest of", x = freddie$year_month - 250, y = 45, color = "white")+
+  geom_text(label = "Freddie Gray", x = freddie$year_month - 330, y = 41, color = "white")
 
 
 
