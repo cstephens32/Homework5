@@ -75,15 +75,25 @@ str(balt2)
 
 
 ```{r}
+pal <- c(
+  "Winter" = "light Blue",
+  "Summer" = "light grey"
+)
+
 ggplot(data = balt2, aes(x = year_month, y = homicide)) +
   geom_col(aes(fill = season)) + 
+ scale_fill_manual(
+    values = pal,
+    limits = names(pal)
+  ) +
   geom_smooth() + ## need to fix
   scale_x_date(date_labels = "%Y") + 
   labs(
     title = "Homicides in Baltimore, MD", 
     y = "Monthly homicides",
     x = "Date"
-  ) 
+  ) + 
+  theme_dark() 
 
 
 
