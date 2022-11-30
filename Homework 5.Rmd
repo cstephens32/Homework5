@@ -72,6 +72,6 @@ plot <- ggplot(data = balt2, aes(x = year_month, y = homicide)) +
   geom_text(label = "Arrest of", x = freddie$year_month - 250, y = 45, color = "white")+
   geom_text(label = "Freddie Gray", x = freddie$year_month - 330, y = 41, color = "white")
 
-ggsave("outputs/Recreated Plot.png")
+ggsave("outputs/Recreated Plot.png", width = 10, height = 4)
 
 ```
